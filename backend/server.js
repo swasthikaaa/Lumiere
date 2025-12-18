@@ -42,20 +42,10 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/upload', uploadRoutes);
 
-// SERVE FRONTEND IN PRODUCTION
-if (process.env.NODE_ENV === 'production') {
-    const buildPath = path.join(__dirname, '../dist');
-    app.use(express.static(buildPath));
-
-    // Handle any requests that don't match the ones above
-    app.get('(.*)', (req, res) => {
-        res.sendFile(path.join(buildPath, 'index.html'));
-    });
-} else {
-    app.get('/', (req, res) => {
-        res.send('API is running...');
-    });
-}
+// Basic health check for development
+app.get('/', (req, res) => {
+    res.send('API is running...');
+});
 
 const startServer = () => {
     app.listen(PORT, () => {
