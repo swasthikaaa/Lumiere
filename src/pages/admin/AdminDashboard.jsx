@@ -76,7 +76,7 @@ const AdminDashboard = () => {
             <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '2rem', marginBottom: '2rem' }}>Dashboard Overview</h1>
 
             {/* Stats Cards */}
-            <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', marginBottom: '3rem' }}>
+            <div className="admin-stats-grid">
                 <div style={cardStyle}>
                     <p style={{ color: '#888', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Total Revenue</p>
                     <h3 style={{ fontSize: '2rem', color: '#1a1a1a' }}>{formatPrice(stats.revenue)}</h3>
@@ -96,13 +96,13 @@ const AdminDashboard = () => {
             </div>
 
             {/* Charts Section */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(Min(100%, 400px), 1fr))', gap: '2rem' }}>
 
                 {/* Revenue Chart */}
-                <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+                <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
                     <h3 style={{ marginBottom: '2rem' }}>Revenue Overview</h3>
-                    <div style={{ height: '300px' }}>
-                        <ResponsiveContainer width="100%" height="100%">
+                    <div style={{ height: '300px', width: '100%' }}>
+                        <ResponsiveContainer width="99%" height="100%">
                             <BarChart data={chartData}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                                 <XAxis dataKey="name" axisLine={false} tickLine={false} />
@@ -115,10 +115,10 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Order Status Chart */}
-                <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+                <div style={{ background: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
                     <h3 style={{ marginBottom: '2rem' }}>Order Status</h3>
-                    <div style={{ height: '300px', display: 'flex', justifyContent: 'center' }}>
-                        <ResponsiveContainer width="100%" height="100%">
+                    <div style={{ height: '300px', display: 'flex', justifyContent: 'center', width: '100%' }}>
+                        <ResponsiveContainer width="99%" height="100%">
                             <PieChart>
                                 <Pie
                                     data={pieData}

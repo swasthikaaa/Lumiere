@@ -100,8 +100,8 @@ const AdminProducts = () => {
                 <button onClick={openAdd} className="btn btn-primary" style={{ padding: '0.8rem 1.5rem' }}>Add Product</button>
             </div>
 
-            <div style={{ background: '#fff', padding: '1rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div className="admin-table-container">
+                <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse', minWidth: '800px' }}>
                     <thead>
                         <tr style={{ background: '#f9f9f9', textAlign: 'left' }}>
                             <th style={{ padding: '1rem' }}>ID</th>
@@ -111,7 +111,6 @@ const AdminProducts = () => {
                             <th style={{ padding: '1rem' }}>Category</th>
                             <th style={{ padding: '1rem' }}>Description</th>
                             <th style={{ padding: '1rem' }}>Actions</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -120,16 +119,21 @@ const AdminProducts = () => {
                             return (
                                 <tr key={displayId} style={{ borderBottom: '1px solid #eee' }}>
                                     <td style={{ padding: '1rem' }}>{displayId}</td>
-                                    <td style={{ padding: '1rem' }}><img src={product.image} alt={product.name} style={{ width: '50px', height: '50px', objectFit: 'cover' }} /></td>
-                                    <td style={{ padding: '1rem' }}>{product.name}</td>
+                                    <td style={{ padding: '1rem' }}><img src={product.image} alt={product.name} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} /></td>
+                                    <td style={{ padding: '1rem', fontWeight: 500 }}>{product.name}</td>
                                     <td style={{ padding: '1rem' }}>{formatPrice(product.price)}</td>
-                                    <td style={{ padding: '1rem' }}>{product.category}</td>
                                     <td style={{ padding: '1rem' }}>
-                                        {product.description}</td>
+                                        <span style={{ background: '#f0f0f0', padding: '4px 10px', borderRadius: '12px', fontSize: '0.8rem' }}>
+                                            {product.category}
+                                        </span>
+                                    </td>
+                                    <td style={{ padding: '1rem', color: '#666', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        {product.description}
+                                    </td>
                                     <td style={{ padding: '1rem' }}>
                                         <div style={{ display: 'flex', gap: '0.8rem' }}>
-                                            <button onClick={() => openEdit(product)} style={{ color: 'blue', background: 'none', border: 'none', cursor: 'pointer', padding: '0' }}>Edit</button>
-                                            <button onClick={() => handleDeleteClick(product)} style={{ color: 'red', background: 'none', border: 'none', cursor: 'pointer', padding: '0' }}>Delete</button>
+                                            <button onClick={() => openEdit(product)} style={{ color: 'var(--color-accent)', background: 'none', border: 'none', cursor: 'pointer', padding: '0', fontWeight: 600 }}>Edit</button>
+                                            <button onClick={() => handleDeleteClick(product)} style={{ color: '#ff4d4f', background: 'none', border: 'none', cursor: 'pointer', padding: '0', fontWeight: 600 }}>Delete</button>
                                         </div>
                                     </td>
                                 </tr>

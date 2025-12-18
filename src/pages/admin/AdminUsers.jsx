@@ -58,14 +58,14 @@ const AdminUsers = () => {
     return (
         <div>
             <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '2rem', marginBottom: '2rem' }}>Users</h1>
-            <div style={{ background: '#fff', padding: '1rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div className="admin-table-container">
+                <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse', minWidth: '700px' }}>
                     <thead>
                         <tr style={{ background: '#f9f9f9', textAlign: 'left' }}>
                             <th style={{ padding: '1rem' }}>Name</th>
                             <th style={{ padding: '1rem' }}>Email</th>
-                            <th style={{ padding: '1rem' }}>Role</th>
-                            <th style={{ padding: '1rem' }}>Status</th>
+                            <th style={{ padding: '1rem' }}>Admin Status</th>
+                            <th style={{ padding: '1rem' }}>Account Status</th>
                             <th style={{ padding: '1rem' }}>Actions</th>
                         </tr>
                     </thead>
@@ -74,31 +74,54 @@ const AdminUsers = () => {
                             <tr><td colSpan="5" style={{ padding: '2rem', textAlign: 'center', color: '#999' }}>No users found.</td></tr>
                         ) : users.map(user => (
                             <tr key={user.id} style={{ borderBottom: '1px solid #eee' }}>
-                                <td style={{ padding: '1rem' }}>{user.name}</td>
+                                <td style={{ padding: '1rem', fontWeight: 500 }}>{user.name}</td>
                                 <td style={{ padding: '1rem' }}>{user.email}</td>
-                                <td style={{ padding: '1rem' }}>{user.isAdmin ? 'Admin' : 'User'}</td>
                                 <td style={{ padding: '1rem' }}>
-                                    <span style={{ color: user.isActive ? 'green' : 'red', fontWeight: 600 }}>
-                                        {user.isActive ? 'Active' : 'Inactive'}
+                                    <span style={{
+                                        padding: '4px 10px',
+                                        borderRadius: '12px',
+                                        fontSize: '0.8rem',
+                                        background: user.isAdmin ? '#fff3cd' : '#e2e3e5',
+                                        color: user.isAdmin ? '#856404' : '#383d41'
+                                    }}>
+                                        {user.isAdmin ? 'Admin' : 'User'}
                                     </span>
                                 </td>
                                 <td style={{ padding: '1rem' }}>
-                                    {!user.isAdmin && (
-                                        <>
+                                    <span style={{
+                                        padding: '4px 10px',
+                                        borderRadius: '12px',
+                                        fontSize: '0.8rem',
+                                        background: user.isActive ? '#d4edda' : '#f8d7da',
+                                        color: user.isActive ? '#155724' : '#721c24'
+                                    }}>
+                                        {user.isActive ? 'Active' : 'Deactivated'}
+                                    </span>
+                                </td>
+                                <td style={{ padding: '1rem' }}>
+                                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                        {user.email !== 'adminlumiere@gmail.com' && (
                                             <button
                                                 onClick={() => toggleStatus(user.id)}
-                                                style={{ marginRight: '1rem', color: '#666', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+                                                style={{
+                                                    background: 'none',
+                                                    border: 'none',
+                                                    color: user.isActive ? '#ff4d4f' : '#28a745',
+                                                    cursor: 'pointer',
+                                                    textDecoration: 'underline',
+                                                    fontSize: '0.85rem'
+                                                }}
                                             >
                                                 {user.isActive ? 'Deactivate' : 'Activate'}
                                             </button>
-                                            <button
-                                                onClick={() => handleDeleteClick(user)}
-                                                style={{ color: 'red', background: 'none', border: 'none', cursor: 'pointer' }}
-                                            >
-                                                Delete
-                                            </button>
-                                        </>
-                                    )}
+                                        )}
+                                        <button
+                                            onClick={() => handleDeleteClick(user)}
+                                            style={{ color: '#ff4d4f', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.85rem' }}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
@@ -113,7 +136,7 @@ const AdminUsers = () => {
                 title="Delete User"
                 message={`Are you sure you want to delete ${deleteModal.userName}? This action cannot be undone.`}
             />
-        </div>
+        </div >
     );
 };
 
