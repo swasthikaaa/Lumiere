@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import User from '../models/User.js';
 import sendEmail from '../utils/sendEmail.js';
 
-const JWT_SECRET = 'super-secret-key-change-in-prod';
+const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key-change-in-prod';
 
 // Generate Token
 const generateToken = (id, isAdmin) => {
