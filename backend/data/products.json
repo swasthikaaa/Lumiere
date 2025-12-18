@@ -1,0 +1,66 @@
+[
+    {
+        "id": 1,
+        "name": "Illuminating Serum",
+        "category": "Face",
+        "price": 85.00,
+        "image": "/src/assets/product-1.png",
+        "description": "A powerful brightening serum that targets dark spots and uneven tone."
+    },
+    {
+        "id": 2,
+        "name": "Revitalizing Night Cream",
+        "category": "Face",
+        "price": 95.00,
+        "image": "/src/assets/product-1.png",
+        "description": "Rich, restorative cream that works while you sleep."
+    },
+    {
+        "id": 3,
+        "name": "Rose Petal Mist",
+        "category": "Mist",
+        "price": 45.00,
+        "image": "/src/assets/product-1.png",
+        "description": "Hydrating mist infused with real rose petals."
+    },
+    {
+        "id": 4,
+        "name": "Gold Eye Masks",
+        "category": "Eyes",
+        "price": 60.00,
+        "image": "/src/assets/product-1.png",
+        "description": "Luxury hydrogel masks to de-puff and brighten."
+    },
+    {
+        "id": 5,
+        "name": "Purifying Clay Mask",
+        "category": "Face",
+        "price": 55.00,
+        "image": "/src/assets/product-1.png",
+        "description": "Detoxifying clay mask to clear pores."
+    },
+    {
+        "id": 6,
+        "name": "Silk Body Oil",
+        "category": "Body",
+        "price": 70.00,
+        "image": "/src/assets/product-1.png",
+        "description": "Lightweight body oil for a satiny finish."
+    },
+    {
+        "id": 7,
+        "name": "Hydrating Gel",
+        "category": "Face",
+        "price": 50.00,
+        "image": "/src/assets/product-1.png",
+        "description": "Oil-free hydration for prolonged moisture."
+    },
+    {
+        "id": 8,
+        "name": "Radiance Discovery Set",
+        "category": "Sets",
+        "price": 120.00,
+        "image": "/src/assets/product-1.png",
+        "description": "A curated set of our best-selling essentials."
+    }
+]
