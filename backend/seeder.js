@@ -2,7 +2,14 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Product from './models/Product.js';
 import connectDB from './config/db.js';
-import products from './data/products.json' assert { type: 'json' };
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const productsPath = path.join(__dirname, 'data', 'products.json');
+const products = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
 
 dotenv.config();
 connectDB();
