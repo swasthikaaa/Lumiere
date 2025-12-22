@@ -19,7 +19,7 @@ const Journal = () => {
                     <a href="https://www.allure.com/story/clean-beauty-trend-explained" target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none' }}>
                         <div style={{ position: 'relative', height: '500px', borderRadius: '4px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
                             <img
-                                src="https://images.unsplash.com/photo-1556228720-1957be83f789?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80"
+                                src="/assets/journal/journal1.jpg"
                                 alt="Featured"
                                 style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
                                 onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.03)'}
