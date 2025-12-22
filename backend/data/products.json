@@ -63,4 +63,149 @@
         "image": "/src/assets/product-1.png",
         "description": "A curated set of our best-selling essentials."
     }
+    ,
+    {
+        "id": 9,
+        "name": "Glow Boost Cleanser",
+        "category": "Face",
+        "price": 48.00,
+        "image": "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=800&q=80",
+        "description": "Gentle foaming cleanser that removes impurities while preserving moisture."
+    },
+    {
+        "id": 10,
+        "name": "Ultra Hydration Mask",
+        "category": "Face",
+        "price": 62.00,
+        "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80",
+        "description": "Overnight mask formulated with hyaluronic acid for intense hydration."
+    },
+    {
+        "id": 11,
+        "name": "Daily SPF Moisturizer",
+        "category": "Face",
+        "price": 36.00,
+        "image": "https://images.unsplash.com/photo-1580910051070-4a7b2d0b3b0b?w=800&q=80",
+        "description": "Lightweight moisturizer with broad-spectrum SPF for daily protection."
+    },
+    {
+        "id": 12,
+        "name": "Vitamin B Complex Serum",
+        "category": "Face",
+        "price": 58.00,
+        "image": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80",
+        "description": "Targets redness and strengthens the skin barrier for a healthy glow."
+    },
+    {
+        "id": 13,
+        "name": "Calming Chamomile Mist",
+        "category": "Mist",
+        "price": 28.00,
+        "image": "https://images.unsplash.com/photo-1526382925646-5d49f2d4acb6?w=800&q=80",
+        "description": "Soothing facial mist with chamomile and aloe to calm irritated skin."
+    },
+    {
+        "id": 14,
+        "name": "Hydrating Coconut Mist",
+        "category": "Mist",
+        "price": 30.00,
+        "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+        "description": "A refreshing mist infused with coconut water and antioxidants."
+    },
+    {
+        "id": 15,
+        "name": "Detox Purifying Mist",
+        "category": "Mist",
+        "price": 34.00,
+        "image": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&q=80",
+        "description": "Mineral-rich mist to refresh and rebalance oily or combination skin."
+    },
+    {
+        "id": 16,
+        "name": "Antioxidant Green Mist",
+        "category": "Mist",
+        "price": 33.00,
+        "image": "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&q=80",
+        "description": "Green tea and vitamin-rich mist to protect skin from free radicals."
+    },
+    {
+        "id": 17,
+        "name": "Illuminating Eye Gel",
+        "category": "Eyes",
+        "price": 44.00,
+        "image": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80",
+        "description": "Cooling gel to reduce puffiness and brighten the eye area."
+    },
+    {
+        "id": 18,
+        "name": "Firming Peptide Eye Cream",
+        "category": "Eyes",
+        "price": 68.00,
+        "image": "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=800&q=80",
+        "description": "Targets fine lines with peptides and firming botanicals."
+    },
+    {
+        "id": 19,
+        "name": "Brightening Eye Patches",
+        "category": "Eyes",
+        "price": 22.00,
+        "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80",
+        "description": "Hydrogel patches infused with niacinamide and vitamin C for instant radiance."
+    },
+    {
+        "id": 20,
+        "name": "Soothing Eye Balm",
+        "category": "Eyes",
+        "price": 39.00,
+        "image": "https://images.unsplash.com/photo-1580910051070-4a7b2d0b3b0b?w=800&q=80",
+        "description": "Gentle balm to lock in moisture and soothe tired eyes."
+    },
+    {
+        "id": 21,
+        "name": "Citrus Body Wash",
+        "category": "Body",
+        "price": 18.00,
+        "image": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&q=80",
+        "description": "Energizing body wash with citrus extracts and gentle surfactants."
+    },
+    {
+        "id": 22,
+        "name": "Nourishing Hand Cream",
+        "category": "Body",
+        "price": 16.00,
+        "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+        "description": "Fast-absorbing hand cream with shea butter and nourishing oils."
+    },
+    {
+        "id": 23,
+        "name": "Reviving Foot Salve",
+        "category": "Body",
+        "price": 20.00,
+        "image": "https://images.unsplash.com/photo-1526382925646-5d49f2d4acb6?w=800&q=80",
+        "description": "Intense repair salve for dry, cracked heels and rough skin."
+    },
+    {
+        "id": 24,
+        "name": "Aromatic Body Oil",
+        "category": "Body",
+        "price": 46.00,
+        "image": "https://images.unsplash.com/photo-1596462502278-27bfdd403cc2?w=800&q=80",
+        "description": "Lightweight body oil that leaves skin soft with a subtle scent."
+    },
+    {
+        "id": 25,
+        "name": "Travel Skincare Mini Set",
+        "category": "Sets",
+        "price": 52.00,
+        "image": "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800&q=80",
+        "description": "Mini versions of our daily essentials for travel and trial." 
+    },
+    {
+        "id": 26,
+        "name": "Glow Duo: Serum & Moisturizer",
+        "category": "Sets",
+        "price": 112.00,
+        "image": "https://images.unsplash.com/photo-1596462502278-27bfdd403cc2?w=800&q=80",
+        "description": "A powerful pairing to brighten and hydrate skin." 
+    }
 ]
