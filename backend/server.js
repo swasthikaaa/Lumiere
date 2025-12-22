@@ -15,7 +15,17 @@ import uploadRoutes from './routes/uploadRoutes.js';
 
 import connectDB from './config/db.js';
 
-connectDB(); // Connect to MongoDB
+// Start server only after DB connection succeeds (retries handled in connectDB)
+const init = async () => {
+    try {
+        await connectDB();
+        startServer();
+    } catch (err) {
+        console.error('Failed to initialize application due to DB error:', err.message);
+        // Exit process so the hosting/platform can restart the container if desired
+        process.exit(1);
+    }
+};
 
 import path from 'path';
 import { fileURLToPath } from 'url';
