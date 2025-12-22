@@ -54,12 +54,6 @@ const AdminLayout = () => {
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
                     <h2 style={{ fontFamily: 'var(--font-heading)', margin: 0, color: 'var(--color-accent)', fontSize: '1.5rem' }}>Luminera Admin</h2>
-                    {/* Hide close button on desktop */}
-                    <button
-                        className="mobile-only"
-                        onClick={() => setIsSidebarOpen(false)}
-                        style={{ background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }}
-                    >×</button>
                 </div>
 
                 <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
@@ -98,16 +92,7 @@ const AdminLayout = () => {
                     padding: '0 2rem',
                     justifyContent: 'space-between'
                 }}>
-                    <button
-                        className="mobile-only"
-                        onClick={() => setIsSidebarOpen(true)}
-                        style={{
-                            background: 'none',
-                            border: 'none',
-                            fontSize: '1.5rem',
-                            cursor: 'pointer'
-                        }}
-                    >☰</button>
+                    
                     <div style={{ fontWeight: 600, fontSize: '1.1rem' }}>Admin Panel</div>
                     <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                         <span style={{ fontSize: '0.9rem', color: '#666' }}>Hello, Admin</span>
