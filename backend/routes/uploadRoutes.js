@@ -35,19 +35,22 @@ const upload = multer({
     }
 });
 
-// Upload endpoint
-router.post('/', upload.single('image'), (req, res) => {
-    try {
+// Upload endpoint with multer error handling
+router.post('/', (req, res) => {
+    upload.single('image')(req, res, (err) => {
+        if (err) {
+            // Multer error or file validation error
+            return res.status(400).json({ message: err.message || 'Upload error' });
+        }
+
         if (!req.file) {
             return res.status(400).json({ message: 'No file uploaded' });
         }
 
         // Return the URL path to access the uploaded file
         const fileUrl = `/uploads/${req.file.filename}`;
-        res.json({ url: fileUrl });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+        return res.json({ url: fileUrl });
+    });
 });
 
 export default router;
