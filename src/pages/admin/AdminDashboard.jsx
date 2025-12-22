@@ -14,18 +14,14 @@ const AdminDashboard = () => {
             const token = localStorage.getItem('token');
             const headers = { 'Authorization': `Bearer ${token}` };
 
-                try {
-                const [productsRaw, ordersRaw, usersRaw] = await Promise.all([
-                    fetch('/api/products').then(res => res.json().catch(() => null)),
-                    fetch('/api/orders', { headers }).then(res => res.json().catch(() => null)),
-                    fetch('/api/users', { headers }).then(res => res.json().catch(() => null))
+            try {
+                const [productsRes, ordersRes, usersRes] = await Promise.all([
+                    fetch('/api/products').then(res => res.json()),
+                    fetch('/api/orders', { headers }).then(res => res.json()),
+                    fetch('/api/users', { headers }).then(res => res.json())
                 ]);
 
-                const productsRes = Array.isArray(productsRaw) ? productsRaw : [];
-                const ordersRes = Array.isArray(ordersRaw) ? ordersRaw : [];
-                const usersRes = Array.isArray(usersRaw) ? usersRaw : [];
-
-                const totalRevenue = Array.isArray(ordersRes) ? ordersRes.reduce((acc, order) => acc + (order.totalAmount || 0), 0) : 0;
+                const totalRevenue = ordersRes.reduce((acc, order) => acc + (order.totalAmount || 0), 0);
 
                 setStats({
                     products: productsRes.length,
