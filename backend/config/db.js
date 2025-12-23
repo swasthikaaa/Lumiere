@@ -7,8 +7,8 @@ const connectDB = async () => {
         console.log(`MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
         console.error(`Error connecting to MongoDB: ${error.message}`);
-        // Don't throw here so the server can still start (uploads and other static routes remain usable)
-        // If you want the process to exit on DB failure in production, adjust this behavior via env.
+        // Rethrow so the caller can decide whether to start the server.
+        throw error;
     }
 };
 

@@ -1,38 +1,22 @@
-import User from './models/User.js';
+import mongoose from 'mongoose';
 
-// Legacy helpers are removed as we switch to Mongoose
-// But we keep the function signatures to avoid breaking authRoutes immediately
+const connectDB = async () => {
+  const uri = process.env.MONGO_URI;
+  if (!uri) {
+    console.error('MONGO_URI is not defined in .env');
+    process.exit(1);
+  }
 
-export const findUserByEmail = async (email) => {
-    try {
-        const user = await User.findOne({ email });
-        return user;
-    } catch (error) {
-        console.error("Error finding user:", error);
-        return null; // Return null on error or not found
-    }
+  try {
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB connected');
+  } catch (err) {
+    console.error('MongoDB connection failed:', err.message);
+    process.exit(1); // old rollback behavior
+  }
 };
 
-export const createUser = async (userData) => {
-    try {
-        const user = await User.create(userData);
-        return user;
-    } catch (error) {
-        console.error("Error creating user:", error);
-        throw error;
-    }
-};
-
-export const updateUserPassword = async (id, hashedPassword) => {
-    try {
-        const user = await User.findOneAndUpdate(
-            { id: id }, // Searching by UUID
-            { password: hashedPassword },
-            { new: true }
-        );
-        return !!user;
-    } catch (error) {
-        console.error("Error updating password:", error);
-        return false;
-    }
-};
+export default connectDB;

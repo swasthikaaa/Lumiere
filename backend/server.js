@@ -64,7 +64,9 @@ const startServer = () => {
 };
 
 if (process.env.NODE_ENV !== 'production') {
-    startServer();
+    // In development we still want initialization to run so the server
+    // only starts after a successful DB connection. Call init() here.
+    init();
 }
 
 export default app;
