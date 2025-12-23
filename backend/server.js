@@ -63,10 +63,8 @@ const startServer = () => {
     });
 };
 
-if (process.env.NODE_ENV !== 'production') {
-    // In development we still want initialization to run so the server
-    // only starts after a successful DB connection. Call init() here.
-    init();
-}
+// Always initialize (connect to DB) before starting the server so routes
+// don't receive requests while Mongoose is still buffering.
+init();
 
 export default app;
