@@ -12,6 +12,23 @@ export const getMyOrders = async (req, res) => {
     }
 };
 
+// @desc    Get order by ID
+// @route   GET /api/orders/:id
+// @access  Public (for tracking)
+export const getOrderById = async (req, res) => {
+    try {
+        const order = await Order.findOne({ orderId: req.params.id });
+
+        if (order) {
+            res.json(order);
+        } else {
+            res.status(404).json({ message: 'Order not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 export const createOrder = async (req, res) => {
     try {
         const { orderItems, shippingAddress, paymentMethod, totalPrice, paymentResult } = req.body;

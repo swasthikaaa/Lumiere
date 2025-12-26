@@ -36,9 +36,9 @@ const Cart = () => {
                                 </div>
 
                                 <div style={{ flex: 1 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                                        <h3 style={{ fontSize: '1.1rem', fontWeight: 600 }}>{item.name}</h3>
-                                        <span style={{ fontWeight: 600 }}>{formatPrice(item.price)}</span>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                                        <h3 style={{ fontSize: 'clamp(0.9rem, 4vw, 1.1rem)', fontWeight: 600 }}>{item.name}</h3>
+                                        <span style={{ fontWeight: 600, fontSize: 'clamp(0.9rem, 4vw, 1rem)' }}>{formatPrice(item.price)}</span>
                                     </div>
                                     <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '1rem' }}>{item.category}</p>
 
@@ -69,7 +69,7 @@ const Cart = () => {
                 </div>
 
                 <div style={{ marginTop: '3rem', borderTop: '2px solid #1A1A1A', paddingTop: '2rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', fontSize: '1.2rem', fontWeight: 600 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', fontSize: 'clamp(1.1rem, 5vw, 1.25rem)', fontWeight: 600, flexWrap: 'wrap', gap: '1rem' }}>
                         <span>Total</span>
                         <span>{formatPrice(cartTotal)}</span>
                     </div>

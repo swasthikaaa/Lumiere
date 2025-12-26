@@ -268,18 +268,22 @@ const Checkout = () => {
                                     {paymentMethod === 'stripe' ? (
                                         <div style={{ padding: '1.5rem', border: '1px solid #ddd', borderRadius: '4px', marginBottom: '2rem', background: '#fff' }}>
                                             {clientSecret ? (
-                                                <Elements stripe={stripePromise} options={{ clientSecret }}>
-                                                    <PaymentForm
-                                                        formData={formData}
-                                                        cart={cart}
-                                                        cartTotal={cartTotal}
-                                                        clearCart={clearCart}
-                                                        onSuccess={handleOrderSuccess}
-                                                        formatPrice={formatPrice}
-                                                    />
-                                                </Elements>
+                                                <div style={{ minHeight: '300px' }}>
+                                                    <Elements stripe={stripePromise} options={{ clientSecret }}>
+                                                        <PaymentForm
+                                                            formData={formData}
+                                                            cart={cart}
+                                                            cartTotal={cartTotal}
+                                                            clearCart={clearCart}
+                                                            onSuccess={handleOrderSuccess}
+                                                            formatPrice={formatPrice}
+                                                        />
+                                                    </Elements>
+                                                </div>
                                             ) : (
-                                                <p>Loading payment form...</p>
+                                                <div style={{ padding: '2rem', textAlign: 'center' }}>
+                                                    <p>Loading secure payment form...</p>
+                                                </div>
                                             )}
                                         </div>
                                     ) : (

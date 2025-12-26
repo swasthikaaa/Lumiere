@@ -56,6 +56,9 @@ export const ShopProvider = ({ children }) => {
         setCart([]);
         setWishlist([]);
         toast.success("Logged out");
+        setTimeout(() => {
+            window.location.href = '/login';
+        }, 500);
     };
 
     // Fetch products

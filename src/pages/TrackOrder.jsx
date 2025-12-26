@@ -5,22 +5,41 @@ import { jsPDF } from "jspdf";
 const TrackOrder = () => {
     const [orderId, setOrderId] = useState('');
     const [status, setStatus] = useState(null);
+    const [orderData, setOrderData] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-    const handleTrack = (e) => {
+    const handleTrack = async (e) => {
         e.preventDefault();
         if (!orderId) {
             toast.error('Please enter an Order ID');
             return;
         }
-        // Simulate tracking lookup
-        toast.loading('Locating order...', { duration: 1500 });
-        setTimeout(() => {
-            setStatus('Shipped');
-            toast.success('Order found!');
-        }, 1500);
+
+        setLoading(true);
+        setStatus(null);
+        setOrderData(null);
+
+        try {
+            const res = await fetch(`/api/orders/${orderId}`);
+            if (res.ok) {
+                const data = await res.json();
+                setOrderData(data);
+                setStatus(data.status);
+                toast.success('Order found!');
+            } else {
+                toast.error('Order not found. Please check the ID.');
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error('Failed to fetch order details');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleDownloadInvoice = () => {
+        if (!orderData) return;
+
         const doc = new jsPDF();
 
         // Header
@@ -39,8 +58,9 @@ const TrackOrder = () => {
         doc.text("INVOICE", 150, 20);
 
         doc.setFontSize(10);
-        doc.text(`Order ID: ${orderId || 'ORD-0000'}`, 150, 30);
-        doc.text(`Date: ${new Date().toLocaleDateString()}`, 150, 35);
+        doc.text(`Order ID: ${orderData.orderId}`, 150, 30);
+        doc.text(`Date: ${new Date(orderData.createdAt).toLocaleDateString()}`, 150, 35);
+        doc.text(`Status: ${orderData.status}`, 150, 40);
 
         // Line
         doc.setLineWidth(0.5);
@@ -53,28 +73,32 @@ const TrackOrder = () => {
         doc.text("Qty", 140, 60);
         doc.text("Price", 170, 60);
 
-        // Mock Items
+        // Actual Items
         doc.setFont("helvetica", "normal");
-        doc.text("Illuminating Serum", 20, 70);
-        doc.text("1", 140, 70);
-        doc.text("Rs. 8,500.00", 170, 70);
+        doc.setFontSize(10);
+        let yPos = 70;
 
-        doc.text("Rose Petal Mist", 20, 80);
-        doc.text("1", 140, 80);
-        doc.text("Rs. 4,500.00", 170, 80);
+        orderData.items.forEach((item) => {
+            doc.text(item.name, 20, yPos);
+            doc.text(item.quantity.toString(), 140, yPos);
+            doc.text(item.price.toString(), 170, yPos);
+            yPos += 10;
+        });
 
         // Total
-        doc.line(20, 90, 190, 90);
+        doc.line(20, yPos, 190, yPos);
+        yPos += 10;
         doc.setFont("helvetica", "bold");
-        doc.text("Total", 140, 100);
-        doc.text("Rs. 13,000.00", 170, 100);
+        doc.text("Total", 140, yPos);
+        doc.text(`Rs. ${orderData.totalAmount.toLocaleString('en-LK', { minimumFractionDigits: 2 })}`, 170, yPos);
 
         // Footer
+        yPos += 20;
         doc.setFontSize(10);
         doc.setFont("helvetica", "italic");
-        doc.text("Thank you for choosing Lumière Sri Lanka.", 20, 120);
+        doc.text("Thank you for choosing Lumière Sri Lanka.", 20, yPos);
 
-        doc.save(`Invoice_${orderId || 'Lumiere'}.pdf`);
+        doc.save(`Invoice_${orderData.orderId}.pdf`);
         toast.success('Invoice downloaded!');
     };
 
@@ -91,7 +115,9 @@ const TrackOrder = () => {
                         onChange={(e) => setOrderId(e.target.value)}
                         style={{ flex: 1, padding: '12px', border: '1px solid #ddd', minWidth: '200px' }}
                     />
-                    <button type="submit" className="btn btn-primary" style={{ whiteSpace: 'nowrap' }}>Track</button>
+                    <button type="submit" className="btn btn-primary" style={{ whiteSpace: 'nowrap' }} disabled={loading}>
+                        {loading ? 'Locating...' : 'Track'}
+                    </button>
                 </form>
 
                 {status && (
@@ -102,7 +128,12 @@ const TrackOrder = () => {
                         </div>
 
                         <div style={{ height: '4px', background: '#ddd', borderRadius: '4px', marginBottom: '2rem', position: 'relative' }}>
-                            <div style={{ height: '100%', width: '70%', background: 'green', borderRadius: '4px' }}></div>
+                            <div style={{
+                                height: '100%',
+                                width: status === 'Pending' ? '30%' : status === 'Shipped' ? '70%' : status === 'Completed' ? '100%' : '0%',
+                                background: status === 'Cancelled' ? 'red' : 'green',
+                                borderRadius: '4px'
+                            }}></div>
                         </div>
 
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
