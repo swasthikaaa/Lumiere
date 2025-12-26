@@ -44,7 +44,7 @@ export const createOrder = async (req, res) => {
         const items = orderItems.map(item => ({
             id: item.product || item.productId || item.id,
             name: item.name,
-            price: typeof item.price === 'number' ? `$${item.price.toFixed(2)}` : item.price,
+            price: typeof item.price === 'number' ? `Rs. ${item.price.toFixed(2)}` : item.price,
             quantity: item.qty || item.quantity,
             image: item.image
         }));
