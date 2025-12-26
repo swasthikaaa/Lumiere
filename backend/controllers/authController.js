@@ -4,11 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 import User from '../models/User.js';
 import sendEmail from '../utils/sendEmail.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key-change-in-prod';
-
 // Generate Token
 const generateToken = (id, isAdmin) => {
-    return jwt.sign({ id, isAdmin }, JWT_SECRET, { expiresIn: '1d' });
+    return jwt.sign({ id, isAdmin }, process.env.JWT_SECRET || 'super-secret-key-change-in-prod', { expiresIn: '30d' });
 };
 
 // @desc    Register a new user
@@ -102,7 +100,7 @@ export const forgotPassword = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        const resetToken = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '10m' });
+        const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'super-secret-key-change-in-prod', { expiresIn: '10m' });
         const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
         const resetUrl = `${frontendUrl}/update-password?token=${resetToken}`;
 
@@ -142,7 +140,7 @@ export const resetPassword = async (req, res) => {
         if (!token || !newPassword) return res.status(400).json({ message: 'Invalid request' });
 
         try {
-            const decoded = jwt.verify(token, JWT_SECRET);
+            const decoded = jwt.verify(token, process.env.JWT_SECRET || 'super-secret-key-change-in-prod');
 
             const hashedPassword = await bcrypt.hash(newPassword, 10);
 

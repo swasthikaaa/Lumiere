@@ -3,12 +3,15 @@ import mongoose from 'mongoose';
 const connectDB = async () => {
     try {
         if (mongoose.connection.readyState >= 1) return;
-        const conn = await mongoose.connect(process.env.MONGO_URI);
+        const uri = process.env.MONGO_URI;
+        if (!uri) {
+            throw new Error('MONGO_URI is not defined in environment variables');
+        }
+        const conn = await mongoose.connect(uri);
         console.log(`MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
         console.error(`Error connecting to MongoDB: ${error.message}`);
-        // Don't throw here so the server can still start (uploads and other static routes remain usable)
-        // If you want the process to exit on DB failure in production, adjust this behavior via env.
+        throw error; // Re-throw so the caller knows it failed
     }
 };
 

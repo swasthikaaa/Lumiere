@@ -1,7 +1,6 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
-dotenv.config();
 
 import authRoutes from './routes/authRoutes.js';
 import productRoutes from './routes/productRoutes.js';
@@ -34,12 +33,20 @@ app.use('/api/upload', uploadRoutes);
 // Health check
 app.get('/', (req, res) => res.send('API is running...'));
 
-// Database connection
-connectDB();
-
 // Only start the server if we're not running as a Vercel function
 if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    const startServer = async () => {
+        try {
+            await connectDB();
+            app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+        } catch (err) {
+            console.error('Failed to start server:', err.message);
+        }
+    };
+    startServer();
+} else {
+    // On Vercel, just initiate connection (Mongoose buffers)
+    connectDB();
 }
 
 export default app;

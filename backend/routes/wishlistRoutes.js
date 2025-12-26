@@ -44,7 +44,7 @@ router.delete('/remove/:productId', protect, async (req, res) => {
     try {
         let wishlist = await Wishlist.findOne({ userId: req.user.id });
         if (wishlist) {
-            wishlist.items = wishlist.items.filter(p => p.productId !== parseInt(req.params.productId));
+            wishlist.items = wishlist.items.filter(p => String(p.productId) !== String(req.params.productId));
             await wishlist.save();
             res.json(wishlist.items);
         } else {
