@@ -34,21 +34,12 @@ app.use('/api/upload', uploadRoutes);
 // Health check
 app.get('/', (req, res) => res.send('API is running...'));
 
-// Start server only after DB connection
-const startServer = () => {
+// Database connection
+connectDB();
+
+// Only start the server if we're not running as a Vercel function
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-};
-
-const init = async () => {
-    try {
-        await connectDB();
-        startServer();
-    } catch (err) {
-        console.error('Failed to initialize application due to DB error:', err.message);
-        process.exit(1);
-    }
-};
-
-init();
+}
 
 export default app;

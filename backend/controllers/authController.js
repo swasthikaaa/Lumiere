@@ -103,7 +103,8 @@ export const forgotPassword = async (req, res) => {
         }
 
         const resetToken = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '10m' });
-        const resetUrl = `http://localhost:5173/update-password?token=${resetToken}`;
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+        const resetUrl = `${frontendUrl}/update-password?token=${resetToken}`;
 
         const message = `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
