@@ -6,7 +6,7 @@ const protect = async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             token = req.headers.authorization.split(' ')[1];
-            const decoded = jwt.verify(token, 'super-secret-key-change-in-prod'); // Should match JWT_SECRET in authRoutes
+            const decoded = jwt.verify(token, process.env.JWT_SECRET || 'super-secret-key-change-in-prod');
             req.user = { id: decoded.id, isAdmin: decoded.isAdmin };
             next();
         } catch (error) {
