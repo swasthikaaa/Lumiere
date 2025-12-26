@@ -7,7 +7,7 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { setIsCartOpen, cart, setIsSearchOpen } = useShop();
+  const { setIsCartOpen, cart, setIsSearchOpen, logout } = useShop();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,10 +92,7 @@ const Navbar = () => {
               <Link to="/track-order" style={{ display: 'block', padding: '0.5rem 0', textDecoration: 'none', color: 'inherit', fontSize: '0.9rem' }}>Track Order</Link>
               <div style={{ borderTop: '1px solid #eee', margin: '0.5rem 0' }}></div>
               <span
-                onClick={() => {
-                  localStorage.removeItem('token');
-                  navigate('/login');
-                }}
+                onClick={logout}
                 style={{ display: 'block', padding: '0.5rem 0', cursor: 'pointer', color: 'red', fontSize: '0.9rem' }}
               >
                 Logout
@@ -152,8 +149,7 @@ const Navbar = () => {
         <div style={{ marginTop: '2rem', paddingBottom: '2rem' }}>
           <span
             onClick={() => {
-              localStorage.removeItem('token');
-              navigate('/login');
+              logout();
               closeMobileMenu();
             }}
             style={{ color: 'red', cursor: 'pointer', fontWeight: 500 }}

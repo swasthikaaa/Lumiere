@@ -6,7 +6,8 @@ const ShopContext = createContext();
 export const useShop = () => useContext(ShopContext);
 
 export const ShopProvider = ({ children }) => {
-    // Cart state
+    // Auth state
+    const [token, setToken] = useState(localStorage.getItem('token'));
     const [cart, setCart] = useState([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [wishlist, setWishlist] = useState([]);
@@ -14,7 +15,48 @@ export const ShopProvider = ({ children }) => {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [products, setProducts] = useState([]);
 
-    const token = localStorage.getItem('token');
+    // Login function
+    const login = async (newToken) => {
+        localStorage.setItem('token', newToken);
+        setToken(newToken);
+
+        // Sync guest cart to server if needed
+        if (cart.length > 0) {
+            try {
+                for (const item of cart) {
+                    await fetch('/api/cart/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${newToken}`
+                        },
+                        body: JSON.stringify({
+                            productId: item.productId,
+                            name: item.name,
+                            price: item.price,
+                            image: item.image,
+                            quantity: item.quantity
+                        })
+                    });
+                }
+                // After syncing, fetch the updated cart from server
+                const res = await fetch('/api/cart', { headers: { 'Authorization': `Bearer ${newToken}` } });
+                const data = await res.json();
+                if (Array.isArray(data)) setCart(data);
+            } catch (error) {
+                console.error("Error syncing cart after login", error);
+            }
+        }
+    };
+
+    // Logout function
+    const logout = () => {
+        localStorage.removeItem('token');
+        setToken(null);
+        setCart([]);
+        setWishlist([]);
+        toast.success("Logged out");
+    };
 
     // Fetch products
     const fetchProducts = async () => {
@@ -34,7 +76,7 @@ export const ShopProvider = ({ children }) => {
         fetchProducts();
     }, [searchQuery]);
 
-    // Fetch Cart & Wishlist on Load
+    // Fetch Cart & Wishlist on Token Change
     useEffect(() => {
         if (token) {
             fetch('/api/cart', { headers: { 'Authorization': `Bearer ${token}` } })
@@ -73,7 +115,9 @@ export const ShopProvider = ({ children }) => {
                     })
                 });
                 const data = await res.json();
-                setCart(data);
+                if (Array.isArray(data)) {
+                    setCart(data);
+                }
                 toast.success('Added to Cart');
             } catch (error) {
                 console.error(error);
@@ -231,6 +275,9 @@ export const ShopProvider = ({ children }) => {
     };
 
     const value = {
+        token,
+        login,
+        logout,
         cart,
         addToCart,
         removeFromCart,

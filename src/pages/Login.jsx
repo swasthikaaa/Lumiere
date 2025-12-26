@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useShop } from '../context/ShopContext';
 
 const Login = () => {
+    const { login } = useShop();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -17,7 +19,7 @@ const Login = () => {
             });
             const data = await res.json();
             if (res.ok) {
-                localStorage.setItem('token', data.token);
+                await login(data.token);
                 // Redirect based on role
                 if (data.user.isAdmin) {
                     toast.success(`Welcome Admin!`);
