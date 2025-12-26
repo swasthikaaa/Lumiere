@@ -16,59 +16,98 @@ const Wishlist = () => {
     }
 
     return (
-        <div style={{ paddingTop: '150px', paddingBottom: '4rem', minHeight: '100vh' }}>
-            <div className="container">
-                <h1 className="text-center mb-lg" style={{ fontSize: '3rem' }}>Your Wishlist</h1>
+        <div style={{ paddingTop: '150px', paddingBottom: '4rem', minHeight: '100vh', background: 'var(--color-bg)' }}>
+            <div className="container" style={{ maxWidth: '900px' }}>
+                <h1 className="text-center mb-lg" style={{ fontSize: '3.5rem', fontFamily: 'var(--font-heading)' }}>My Wishlist</h1>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     {wishlist.map(product => {
                         const prodId = product.productId || product.id || product._id;
+                        const { formatPrice } = useShop();
+
                         return (
-                            <div key={prodId} className="fade-in-up">
-                                <div style={{ position: 'relative', height: '350px', marginBottom: '1rem', background: '#f9f9f9' }}>
-                                    <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                    <button
-                                        onClick={() => removeFromWishlist(prodId)}
-                                        style={{
-                                            position: 'absolute',
-                                            top: '10px', right: '10px',
-                                            background: 'rgba(255,255,255,0.8)',
-                                            border: 'none',
-                                            width: '30px', height: '30px',
-                                            borderRadius: '50%',
-                                            cursor: 'pointer',
-                                            fontSize: '1.2rem',
-                                            lineHeight: '1',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center'
-                                        }}
-                                    >
-                                        &times;
-                                    </button>
+                            <div key={prodId} className="fade-in-up wishlist-item" style={{
+                                display: 'flex',
+                                gap: '2rem',
+                                alignItems: 'center',
+                                background: '#fff',
+                                padding: '2rem',
+                                border: '1px solid #eee',
+                                transition: 'transform 0.3s ease, box-shadow 0.3s ease'
+                            }}>
+                                <div style={{ width: '150px', height: '200px', flexShrink: 0, overflow: 'hidden', background: '#f9f9f9' }}>
+                                    <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }} className="wish-img" />
                                 </div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                     <div>
-                                        <h3 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>{product.name}</h3>
-                                        <p style={{ color: '#666', fontSize: '0.9rem' }}>{product.category}</p>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
+                                            <h3 style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>{product.name}</h3>
+                                            <span style={{ fontWeight: 600, fontSize: '1.1rem' }}>{formatPrice(product.price)}</span>
+                                        </div>
+                                        <p style={{ color: '#888', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.1em', marginBottom: '1rem' }}>{product.category}</p>
                                     </div>
-                                    <span style={{ fontWeight: 600 }}>{useShop().formatPrice(product.price)}</span>
+
+                                    <div style={{ display: 'flex', gap: '1rem', marginTop: 'auto' }}>
+                                        <button
+                                            className="btn btn-primary"
+                                            style={{ flex: 1 }}
+                                            onClick={() => {
+                                                addToCart(product);
+                                                removeFromWishlist(prodId);
+                                                navigate('/cart');
+                                            }}
+                                        >
+                                            Add To Bag
+                                        </button>
+                                        <button
+                                            onClick={() => removeFromWishlist(prodId)}
+                                            style={{
+                                                padding: '0 1.5rem',
+                                                border: '1px solid #ddd',
+                                                color: '#666',
+                                                transition: 'all 0.3s'
+                                            }}
+                                            className="wish-remove-btn"
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
                                 </div>
-                                <button
-                                    className="btn btn-secondary"
-                                    style={{ width: '100%', marginTop: '1rem' }}
-                                    onClick={() => {
-                                        addToCart(product);
-                                        removeFromWishlist(prodId);
-                                        // Navigate to cart as requested
-                                        navigate('/cart');
-                                    }}
-                                >
-                                    Add to Cart
-                                </button>
                             </div>
                         );
                     })}
                 </div>
             </div>
+            <style>{`
+                .wishlist-item:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+                }
+                .wishlist-item:hover .wish-img {
+                    transform: scale(1.05);
+                }
+                .wish-remove-btn:hover {
+                    background: #fdfdfd;
+                    color: red;
+                    border-color: red;
+                }
+                @media (max-width: 600px) {
+                    .wishlist-item {
+                        flex-direction: column !important;
+                        padding: 1.5rem !important;
+                        text-align: center;
+                    }
+                    .wishlist-item > div:first-child {
+                        width: 100% !important;
+                        height: 250px !important;
+                    }
+                    .wishlist-item div[style*="justify-content: space-between"] {
+                        flex-direction: column !important;
+                        align-items: center !important;
+                    }
+                }
+            `}</style>
         </div>
     );
 };
