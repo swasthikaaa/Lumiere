@@ -97,7 +97,7 @@ export const ShopProvider = ({ children }) => {
 
     // Add to cart
     const addToCart = async (product, quantity = 1) => {
-        const prodId = product.id || product._id || product.productId;
+        const prodId = product.productId || product.id || product._id;
         if (token) {
             try {
                 const res = await fetch('/api/cart/add', {
@@ -200,7 +200,7 @@ export const ShopProvider = ({ children }) => {
 
     // Wishlist Logic
     const addToWishlist = async (product) => {
-        const prodId = product.id || product._id || product.productId;
+        const prodId = product.productId || product.id || product._id;
         const exists = wishlist.find(item => item.productId === prodId);
         if (exists) {
             toast.error('Item already in wishlist');
