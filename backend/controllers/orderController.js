@@ -1,4 +1,5 @@
 import Order from '../models/Order.js';
+import mongoose from 'mongoose';
 
 // @desc    Get logged in user orders
 // @route   GET /api/orders/myorders

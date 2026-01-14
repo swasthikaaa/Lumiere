@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import mongoose from 'mongoose';
 
 // @desc    Get all users
 // @route   GET /api/users
