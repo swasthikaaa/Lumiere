@@ -39,7 +39,8 @@ const AdminOrders = () => {
                 toast.success('Order Status Updated');
                 fetchOrders();
             } else {
-                toast.error('Update Failed');
+                const errorData = await res.json();
+                toast.error(errorData.message || 'Update Failed');
             }
         } catch (err) {
             console.error(err);

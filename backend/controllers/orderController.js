@@ -17,7 +17,12 @@ export const getMyOrders = async (req, res) => {
 // @access  Public (for tracking)
 export const getOrderById = async (req, res) => {
     try {
-        const order = await Order.findOne({ orderId: req.params.id });
+        const order = await Order.findOne({
+            $or: [
+                { orderId: req.params.id },
+                { _id: mongoose.isValidObjectId(req.params.id) ? req.params.id : null }
+            ]
+        });
 
         if (order) {
             res.json(order);
@@ -108,7 +113,12 @@ export const updateOrderStatus = async (req, res) => {
     const { status } = req.body;
 
     try {
-        const order = await Order.findOne({ orderId: req.params.id });
+        const order = await Order.findOne({
+            $or: [
+                { orderId: req.params.id },
+                { _id: mongoose.isValidObjectId(req.params.id) ? req.params.id : null }
+            ]
+        });
 
         if (order) {
             order.status = status;

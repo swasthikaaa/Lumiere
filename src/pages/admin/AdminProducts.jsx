@@ -72,7 +72,8 @@ const AdminProducts = () => {
                 fetchProducts();
                 refreshProducts(); // Refresh global shop state
             } else {
-                toast.error('Operation failed');
+                const errorData = await res.json();
+                toast.error(errorData.message || 'Operation failed');
             }
         } catch (err) {
             console.error(err);
@@ -183,7 +184,7 @@ const AdminProducts = () => {
                                                     setFormData(prev => ({ ...prev, image: data.url }));
                                                     toast.success('Image uploaded');
                                                 } else {
-                                                    toast.error('Upload failed');
+                                                    toast.error(data.message || 'Upload failed');
                                                 }
                                             } catch (err) {
                                                 console.error(err);

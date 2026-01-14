@@ -32,6 +32,9 @@ const AdminUsers = () => {
             if (res.ok) {
                 toast.success('User status updated');
                 fetchUsers();
+            } else {
+                const errorData = await res.json();
+                toast.error(errorData.message || 'Update Failed');
             }
         } catch (err) {
             console.error(err);
@@ -48,6 +51,9 @@ const AdminUsers = () => {
             if (res.ok) {
                 toast.success('User deleted successfully');
                 fetchUsers();
+            } else {
+                const errorData = await res.json();
+                toast.error(errorData.message || 'Failed to delete user');
             }
         } catch (err) {
             console.error(err);

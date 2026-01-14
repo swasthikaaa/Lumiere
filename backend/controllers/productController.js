@@ -25,8 +25,15 @@ export const createProduct = async (req, res) => {
     const { id, name, price, image, category, description } = req.body;
 
     try {
+        // Find highest ID if not provided
+        let finalId = id;
+        if (!finalId) {
+            const lastProduct = await Product.findOne().sort({ id: -1 });
+            finalId = lastProduct ? lastProduct.id + 1 : 1;
+        }
+
         const product = new Product({
-            id,
+            id: finalId,
             name,
             price,
             image,
@@ -37,7 +44,8 @@ export const createProduct = async (req, res) => {
         const createdProduct = await product.save();
         res.status(201).json(createdProduct);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        console.error('Product Creation Error:', err);
+        res.status(500).json({ message: err.message || 'Error creating product' });
     }
 };
 
@@ -68,7 +76,8 @@ export const updateProduct = async (req, res) => {
             res.status(404).json({ message: 'Product not found' });
         }
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        console.error('Product Update Error:', err);
+        res.status(500).json({ message: err.message || 'Error updating product' });
     }
 };
 

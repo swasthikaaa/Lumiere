@@ -19,7 +19,12 @@ export const getUsers = async (req, res) => {
 // @access  Private/Admin
 export const updateUserStatus = async (req, res) => {
     try {
-        const user = await User.findOne({ id: req.params.id }); // Using UUID
+        const user = await User.findOne({
+            $or: [
+                { id: req.params.id },
+                { _id: mongoose.isValidObjectId(req.params.id) ? req.params.id : null }
+            ]
+        });
         if (user) {
             user.isActive = !user.isActive;
             const updatedUser = await user.save();
@@ -37,7 +42,12 @@ export const updateUserStatus = async (req, res) => {
 // @access  Private/Admin
 export const deleteUser = async (req, res) => {
     try {
-        const user = await User.findOne({ id: req.params.id });
+        const user = await User.findOne({
+            $or: [
+                { id: req.params.id },
+                { _id: mongoose.isValidObjectId(req.params.id) ? req.params.id : null }
+            ]
+        });
         if (user) {
             await user.deleteOne();
             res.json({ message: 'User removed' });
