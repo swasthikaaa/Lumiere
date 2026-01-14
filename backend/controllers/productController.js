@@ -53,7 +53,7 @@ export const createProduct = async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 export const updateProduct = async (req, res) => {
-    const { name, price, image, category, description } = req.body;
+    const { id, name, price, image, category, description } = req.body;
 
     try {
         const product = await Product.findOne({
@@ -64,6 +64,16 @@ export const updateProduct = async (req, res) => {
         });
 
         if (product) {
+            // Ensure numeric ID exists (handle legacy data)
+            if (product.id === undefined || product.id === null) {
+                if (id) {
+                    product.id = id;
+                } else {
+                    const lastProduct = await Product.findOne().sort({ id: -1 });
+                    product.id = lastProduct ? lastProduct.id + 1 : 1;
+                }
+            }
+
             product.name = name || product.name;
             product.price = price || product.price;
             product.image = image || product.image;
