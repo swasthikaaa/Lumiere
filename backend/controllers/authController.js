@@ -105,14 +105,27 @@ export const forgotPassword = async (req, res) => {
         const resetUrl = `${frontendUrl}/update-password?token=${resetToken}`;
 
         const message = `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h1 style="color: #333;">Password Reset Request</h1>
-                <p>You have requested a password reset for your Lumière account.</p>
-                <div style="margin: 20px 0;">
-                    <a href="${resetUrl}" style="background-color: #000; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 4px;">Reset Password</a>
+            <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f9f9; padding: 40px; border-radius: 8px;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h1 style="color: #1a1a1a; font-family: serif; font-size: 32px; letter-spacing: 2px; margin: 0;">Lumière</h1>
+                    <p style="color: #666; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px;">Purely Home Cosmetics</p>
                 </div>
-                <p style="font-size: 0.9em; color: #666;">This link expires in 10 minutes.</p>
-                <p>If you did not request this, please ignore this email.</p>
+                <div style="background-color: #ffffff; padding: 40px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <h2 style="color: #333; font-size: 20px; font-weight: 600; margin-top: 0;">Reset Your Password</h2>
+                    <p style="color: #555; line-height: 1.6; margin-bottom: 25px;">Hello,</p>
+                    <p style="color: #555; line-height: 1.6; margin-bottom: 25px;">We received a request to reset the password for your Lumière account. No changes have been made to your account yet.</p>
+                    <p style="color: #555; line-height: 1.6; margin-bottom: 30px;">To reset your password, please click the button below:</p>
+                    
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <a href="${resetUrl}" style="background-color: #1a1a1a; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 2px; font-weight: 500; display: inline-block; letter-spacing: 0.5px;">Reset Password</a>
+                    </div>
+                    
+                    <p style="color: #888; font-size: 14px; line-height: 1.5; margin-bottom: 0;">This link will expire in 10 minutes. If you did not request a password reset, you can safely ignore this email.</p>
+                </div>
+                <div style="text-align: center; margin-top: 30px; color: #999; font-size: 12px;">
+                    <p>&copy; ${new Date().getFullYear()} Lumière. All rights reserved.</p>
+                    <p>This is an automated message, please do not reply.</p>
+                </div>
             </div>
         `;
 

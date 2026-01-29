@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
+    const [isSent, setIsSent] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -20,7 +21,7 @@ const ForgotPassword = () => {
 
             if (res.ok) {
                 toast.success('Link sent to your email!');
-                // Removed auto-navigation logic
+                setIsSent(true);
             } else {
                 toast.error(data.message || 'Could not send link');
             }
@@ -32,28 +33,51 @@ const ForgotPassword = () => {
     return (
         <div style={{ paddingTop: '150px', paddingBottom: '4rem', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
             <div className="container" style={{ maxWidth: '400px' }}>
-                <div className="text-center mb-lg">
-                    <h1 style={{ fontSize: '2rem', marginBottom: '1rem', fontFamily: 'var(--font-heading)' }}>Reset Password</h1>
-                    <p style={{ color: '#666' }}>Enter your email address and we'll send you a link to reset your password.</p>
-                </div>
-
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-md">
-                        <label style={{ display: 'block', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>Email</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            style={{ width: '100%', padding: '12px', border: '1px solid #ddd', borderRadius: '0', fontSize: '1rem' }}
-                            required
-                        />
+                {isSent ? (
+                    <div className="text-center">
+                        <div style={{ fontSize: '3rem', color: '#4caf50', marginBottom: '1rem' }}>✓</div>
+                        <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem', fontFamily: 'var(--font-heading)' }}>Check Your Email</h2>
+                        <p style={{ color: '#666', marginBottom: '2rem' }}>
+                            We've sent a password reset link to <strong>{email}</strong>.
+                            Please check your inbox (and spam folder) and click the link to reset your password.
+                        </p>
+                        <button
+                            onClick={() => { setIsSent(false); }}
+                            className="btn btn-outline"
+                            style={{ width: '100%', marginBottom: '1rem', padding: '12px', border: '1px solid #ddd', background: 'transparent' }}
+                        >
+                            Resend Link
+                        </button>
+                        <div>
+                            <Link to="/login" style={{ fontSize: '0.9rem', color: '#666', textDecoration: 'underline' }}>Back to Login</Link>
+                        </div>
                     </div>
-                    <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Send Link</button>
-                </form>
+                ) : (
+                    <>
+                        <div className="text-center mb-lg">
+                            <h1 style={{ fontSize: '2rem', marginBottom: '1rem', fontFamily: 'var(--font-heading)' }}>Reset Password</h1>
+                            <p style={{ color: '#666' }}>Enter your email address and we'll send you a link to reset your password.</p>
+                        </div>
 
-                <div className="text-center" style={{ marginTop: '2rem' }}>
-                    <Link to="/login" style={{ fontSize: '0.9rem', color: '#666', textDecoration: 'underline' }}>Back to Login</Link>
-                </div>
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-md">
+                                <label style={{ display: 'block', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>Email</label>
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    style={{ width: '100%', padding: '12px', border: '1px solid #ddd', borderRadius: '0', fontSize: '1rem' }}
+                                    required
+                                />
+                            </div>
+                            <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Send Link</button>
+                        </form>
+
+                        <div className="text-center" style={{ marginTop: '2rem' }}>
+                            <Link to="/login" style={{ fontSize: '0.9rem', color: '#666', textDecoration: 'underline' }}>Back to Login</Link>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
