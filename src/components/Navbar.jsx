@@ -32,7 +32,7 @@ const Navbar = () => {
           color: 'inherit',
           textDecoration: 'none'
         }}>
-          Luminera
+          Lumiere
         </Link>
 
         {/* Desktop Navigation */}
