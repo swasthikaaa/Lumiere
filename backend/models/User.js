@@ -7,6 +7,8 @@ const userSchema = mongoose.Schema({
     password: { type: String, required: true },
     isAdmin: { type: Boolean, required: true, default: false },
     isActive: { type: Boolean, required: true, default: true },
+    resetPasswordToken: { type: String },
+    resetPasswordExpire: { type: Date },
 }, {
     timestamps: true
 });

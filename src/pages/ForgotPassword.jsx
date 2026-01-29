@@ -20,8 +20,12 @@ const ForgotPassword = () => {
             const data = await res.json();
 
             if (res.ok) {
-                toast.success('Link sent to your email!');
+                toast.success('Code sent to your email!');
                 setIsSent(true);
+                // Redirect to update password page immediately
+                setTimeout(() => {
+                    navigate('/update-password', { state: { email } });
+                }, 1500);
             } else {
                 toast.error(data.message || 'Could not send link');
             }
