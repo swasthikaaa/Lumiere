@@ -101,24 +101,10 @@ export const forgotPassword = async (req, res) => {
         }
 
         // Generate JWT Token for Link
-        const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'super-secret-key-change-in-prod', { expiresIn: '10m' });
-
-        // Generate 6-digit OTP for Manual Entry
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         user.resetPasswordToken = await bcrypt.hash(otp, 10);
         user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
         await user.save();
-
-        let frontendUrl = process.env.FRONTEND_URL;
-
-        if (!frontendUrl) {
-            if (process.env.VERCEL_URL) {
-                frontendUrl = `https://${process.env.VERCEL_URL}`;
-            } else {
-                frontendUrl = 'http://localhost:5173';
-            }
-        }
-        const resetUrl = `${frontendUrl}/update-password?token=${resetToken}`;
 
         const message = `
             <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f9f9; padding: 40px; border-radius: 8px;">
@@ -129,21 +115,16 @@ export const forgotPassword = async (req, res) => {
                 <div style="background-color: #ffffff; padding: 40px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                     <h2 style="color: #333; font-size: 20px; font-weight: 600; margin-top: 0;">Reset Your Password</h2>
                     <p style="color: #555; line-height: 1.6; margin-bottom: 25px;">Hello,</p>
-                    <p style="color: #555; line-height: 1.6; margin-bottom: 25px;">We received a request to reset the password for your Lumière account.</p>
+                    <p style="color: #555; line-height: 1.6; margin-bottom: 25px;">Use the code below to reset the password for your Lumière account.</p>
                     
                     <div style="background-color: #f0f0f0; padding: 15px; text-align: center; margin-bottom: 25px; border-radius: 4px;">
                         <p style="margin: 0; font-size: 14px; color: #555;">Your Verification Code:</p>
                         <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; letter-spacing: 5px; color: #1a1a1a;">${otp}</p>
                     </div>
 
-                    <p style="color: #555; line-height: 1.6; margin-bottom: 30px;">Alternatively, you can click the button below:</p>
-                    
-                    <div style="text-align: center; margin-bottom: 30px;">
-                        <a href="${resetUrl}" style="background-color: #1a1a1a; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 2px; font-weight: 500; display: inline-block; letter-spacing: 0.5px;">Reset Password</a>
-                    </div>
-                    
-                    <p style="color: #888; font-size: 14px; line-height: 1.5; margin-bottom: 0;">This code and link will expire in 10 minutes.</p>
+                    <p style="color: #888; font-size: 14px; line-height: 1.5; margin-bottom: 0;">This code will expire in 10 minutes.</p>
                 </div>
+
                 <div style="text-align: center; margin-top: 30px; color: #999; font-size: 12px;">
                     <p>&copy; ${new Date().getFullYear()} Lumière. All rights reserved.</p>
                 </div>
@@ -152,15 +133,38 @@ export const forgotPassword = async (req, res) => {
 
         await sendEmail({
             email: user.email,
-            subject: 'Reset Your Password - Lumière',
+            subject: 'Reset Password Code - Lumière',
             html: message,
-            message: `Your OTP is ${otp}. Or click here: ${resetUrl}`,
+            message: `Your OTP is ${otp}.`,
         });
 
-        res.status(200).json({ success: true, message: 'Email sent with OTP and Link' });
+        res.status(200).json({ success: true, message: 'OTP sent to email' });
     } catch (err) {
         console.error("Forgot Password Error:", err);
         res.status(500).json({ message: `Email could not be sent: ${err.message}` });
+    }
+};
+
+// @desc    Verify OTP
+// @route   POST /api/auth/verify-otp
+// @access  Public
+export const verifyOtp = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+
+        const user = await User.findOne({
+            email,
+            resetPasswordExpire: { $gt: Date.now() }
+        });
+
+        if (!user) return res.status(400).json({ message: 'Invalid OTP or expired' });
+
+        const isMatch = await bcrypt.compare(otp, user.resetPasswordToken);
+        if (!isMatch) return res.status(400).json({ message: 'Invalid OTP' });
+
+        res.status(200).json({ success: true, message: 'OTP Verified' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };
 

@@ -14,7 +14,8 @@ import Wishlist from './pages/Wishlist';
 import Cart from './pages/Cart';
 import Shop from './pages/Shop';
 import ForgotPassword from './pages/ForgotPassword';
-import UpdatePassword from './pages/UpdatePassword';
+import ResetPasswordFinal from './pages/ResetPasswordFinal';
+import VerifyOtp from './pages/VerifyOtp';
 import Orders from './pages/Orders';
 import TrackOrder from './pages/TrackOrder';
 import CartDrawer from './components/CartDrawer';
@@ -41,7 +42,7 @@ const ScrollToTopImpl = () => {
 
 const AppContent = () => {
   const location = useLocation();
-  const hideNavbarPaths = ['/login', '/register', '/forgot-password', '/update-password'];
+  const hideNavbarPaths = ['/login', '/register', '/forgot-password', '/verify-otp', '/reset-password-final'];
   const shouldHideNavbar = hideNavbarPaths.includes(location.pathname) || location.pathname.startsWith('/admin');
 
   return (
@@ -69,7 +70,8 @@ const AppContent = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/update-password" element={<UpdatePassword />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
+          <Route path="/reset-password-final" element={<ResetPasswordFinal />} />
           <Route path="/wishlist" element={<Wishlist />} />
 
           {/* Admin Routes */}
