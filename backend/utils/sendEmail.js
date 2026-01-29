@@ -6,9 +6,13 @@ const sendEmail = async (options) => {
         service: "gmail",
         auth: {
             user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS.replace(/\s+/g, ''),
+            pass: process.env.EMAIL_PASS ? process.env.EMAIL_PASS.replace(/\s+/g, '') : '',
         },
     });
+
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+        throw new Error("Email credentials (EMAIL_USER or EMAIL_PASS) are missing in environment variables.");
+    }
 
     // Define email options
     const mailOptions = {
